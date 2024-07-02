@@ -1,5 +1,5 @@
 import fastify, { FastifyInstance } from 'fastify';
-import { UserRoutes } from './routes/user.route';
+import { UserRoutes } from './routes/user.routes';
 
 const app: FastifyInstance = fastify();
 

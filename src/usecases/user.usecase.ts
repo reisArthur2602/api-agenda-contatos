@@ -11,7 +11,11 @@ class UserUseCase {
     this.userRepository = new UserRepositoryPrisma();
   }
 
-  async create({ name, email }: UserCreate): Promise<User> {}
+  async create(data: UserCreate): Promise<User> {
+    const user = await this.userRepository.create(data);
+
+    return user;
+  }
 }
 
 export { UserUseCase };
