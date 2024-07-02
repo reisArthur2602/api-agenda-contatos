@@ -13,4 +13,5 @@ export interface UserCreate {
 
 export interface IUserRepository {
   create(data: UserCreate): Promise<User>;
+  findById(data: Pick<User, 'id'>): Promise<User | null>;
 }

@@ -5,6 +5,7 @@ import { ContactsUseCase } from '../usecases/contacts.usecase';
 
 export const ContactsRoutes = async (fastify: FastifyInstance) => {
   const contactsUseCase = new ContactsUseCase();
+  
   fastify.addHook('preHandler', authMiddleware);
 
   fastify.post<{ Body: Omit<ContactsCreate, 'userId'> }>(
@@ -82,7 +83,7 @@ export const ContactsRoutes = async (fastify: FastifyInstance) => {
   });
 
   fastify.get('/', async (req, reply) => {
-    
+
     const userId = req.userId;
     try {
       const data = await contactsUseCase.getAll({ userId });

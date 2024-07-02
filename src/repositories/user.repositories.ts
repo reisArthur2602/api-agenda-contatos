@@ -10,6 +10,9 @@ class UserRepositoryPrisma implements IUserRepository {
     const user = await db.user.create({ data });
     return user;
   }
+  async findById(data: Pick<User, 'id'>): Promise<User | null> {
+    return await db.user.findUnique({ where: { id: data.id } });
+  }
 }
 
 export { UserRepositoryPrisma };
