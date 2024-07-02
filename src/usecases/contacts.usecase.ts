@@ -22,6 +22,9 @@ class ContactsUseCase {
   async delete(data: Pick<Contacts, 'id'>): Promise<Contacts> {
     return await this.contactsRepository.delete(data);
   }
+  async getAll(data: Pick<Contacts, 'userId'>): Promise<Contacts[] | []> {
+    return await this.contactsRepository.getAll(data);
+  }
 }
 
 export { ContactsUseCase };

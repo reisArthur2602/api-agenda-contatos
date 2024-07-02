@@ -81,7 +81,15 @@ export const ContactsRoutes = async (fastify: FastifyInstance) => {
     }
   });
 
-  fastify.get('/', (req, reply) => {
-    reply.send({ message: 'ok' });
+  fastify.get('/', async (req, reply) => {
+    
+    const userId = req.userId;
+    try {
+      const data = await contactsUseCase.getAll({ userId });
+
+      return reply.send(data);
+    } catch (error) {
+      reply.status(500).send('Falha ao buscar tarefas');
+    }
   });
 };

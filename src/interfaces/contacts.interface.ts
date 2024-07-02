@@ -17,4 +17,5 @@ export interface IContactsRepository {
   create(data: ContactsCreate): Promise<Contacts>;
   update(data: Partial<Omit<Contacts, 'userId'>>): Promise<Contacts>;
   delete(data: Pick<Contacts, 'id'>): Promise<Contacts>;
+  getAll(data: Pick<Contacts, 'userId'>): Promise<Contacts[] | []>;
 }
