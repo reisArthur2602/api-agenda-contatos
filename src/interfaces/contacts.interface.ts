@@ -13,11 +13,7 @@ export interface ContactsCreate {
   userId: string;
 }
 
-
-
-
-
-
 export interface IContactsRepository {
   create(data: ContactsCreate): Promise<Contacts>;
+  update(data: Partial<Omit<Contacts, 'userId'>>): Promise<Contacts>;
 }

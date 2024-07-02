@@ -14,6 +14,10 @@ class ContactsUseCase {
   async create(data: ContactsCreate): Promise<Contacts> {
     return await this.contactsRepository.create(data);
   }
+
+  async update(data: Partial<Omit<Contacts, 'userId'>>): Promise<Contacts> {
+    return await this.contactsRepository.update(data);
+  }
 }
 
 export { ContactsUseCase };

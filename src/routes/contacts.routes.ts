@@ -1,16 +1,18 @@
 import { FastifyInstance } from 'fastify';
 import { authMiddleware } from '../middlewares/authMiddleware';
-import { ContactsCreate } from '../interfaces/contacts.interface';
+import { Contacts, ContactsCreate } from '../interfaces/contacts.interface';
 import { ContactsUseCase } from '../usecases/contacts.usecase';
 
 export const ContactsRoutes = async (fastify: FastifyInstance) => {
   const contactsUseCase = new ContactsUseCase();
   fastify.addHook('preHandler', authMiddleware);
+
   fastify.post<{ Body: Omit<ContactsCreate, 'userId'> }>(
     '/',
     async (req, reply) => {
       const { email, name, phone } = req.body;
-      const phoneRegex = /^([14689][0-9]|2[12478]|3([1-5]|[7-8])|5([13-5])|7[193-7])9[0-9]{8}$/;
+      const phoneRegex =
+        /^([14689][0-9]|2[12478]|3([1-5]|[7-8])|5([13-5])|7[193-7])9[0-9]{8}$/;
 
       if (!email || !name || !phoneRegex.test(phone))
         throw new Error('Preencha os dados corretamente');
@@ -30,6 +32,36 @@ export const ContactsRoutes = async (fastify: FastifyInstance) => {
       }
     }
   );
+
+  fastify.put<{
+    Body: Partial<Omit<Contacts, 'userId'>>;
+    Params: { id: string };
+  }>('/:id', async (req, reply) => {
+    const { email, name, phone } = req.body;
+
+    const { id } = req.params;
+    if (!id) throw new Error('Envie o Id do contato que deseja atualizar ');
+
+    if (phone) {
+      const phoneRegex =
+        /^([14689][0-9]|2[12478]|3([1-5]|[7-8])|5([13-5])|7[193-7])9[0-9]{8}$/;
+
+      if (!phoneRegex.test(phone))
+        throw new Error('Número de telefone inválido');
+    }
+
+    try {
+      const data = await contactsUseCase.update({
+        id,
+        email,
+        name,
+        phone,
+      });
+      return reply.send(data);
+    } catch (error) {
+      reply.status(404).send('O contato não foi encontrado');
+    }
+  });
 
   fastify.get('/', (req, reply) => {
     reply.send({ message: 'ok' });
