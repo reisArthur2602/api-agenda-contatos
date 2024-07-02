@@ -1,6 +1,9 @@
 import fastify, { FastifyInstance } from 'fastify';
+import { UserRoutes } from './routes/user.route';
 
 const app: FastifyInstance = fastify();
+
+app.register(UserRoutes, { prefix: '/user' });
 
 app.listen(
   {
