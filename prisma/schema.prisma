@@ -21,8 +21,8 @@ model User {
 model Contacts {
   id     String @id @default(uuid())
   name   String
-  email  String
-  phone  String
+  email  String @unique
+  phone  String @unique
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
