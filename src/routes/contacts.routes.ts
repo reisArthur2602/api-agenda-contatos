@@ -63,6 +63,24 @@ export const ContactsRoutes = async (fastify: FastifyInstance) => {
     }
   });
 
+  fastify.delete<{
+    Params: { id: string };
+  }>('/:id', async (req, reply) => {
+    const { id } = req.params;
+
+    if (!id) throw new Error('Envie o Id do contato que deseja deletar');
+
+    try {
+      const data = await contactsUseCase.delete({
+        id,
+      });
+
+      return reply.send(data);
+    } catch (error) {
+      reply.status(404).send('O contato não foi encontrado');
+    }
+  });
+
   fastify.get('/', (req, reply) => {
     reply.send({ message: 'ok' });
   });

@@ -9,7 +9,7 @@ class ContactRepositoryPrisma implements IContactsRepository {
   async create(data: ContactsCreate): Promise<Contacts> {
     return await db.contacts.create({ data });
   }
-
+  
   async update(data: Partial<Omit<Contacts, 'userId'>>): Promise<Contacts> {
     return await db.contacts.update({
       where: { id: data.id },
@@ -19,6 +19,10 @@ class ContactRepositoryPrisma implements IContactsRepository {
         phone: data.phone,
       },
     });
+  }
+
+  async delete(data: Pick<Contacts, 'id'>): Promise<Contacts> {
+    return await db.contacts.delete({ where: { id: data.id } });
   }
 }
 

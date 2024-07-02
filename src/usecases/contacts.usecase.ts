@@ -18,6 +18,10 @@ class ContactsUseCase {
   async update(data: Partial<Omit<Contacts, 'userId'>>): Promise<Contacts> {
     return await this.contactsRepository.update(data);
   }
+
+  async delete(data: Pick<Contacts, 'id'>): Promise<Contacts> {
+    return await this.contactsRepository.delete(data);
+  }
 }
 
 export { ContactsUseCase };
