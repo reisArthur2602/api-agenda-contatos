@@ -12,8 +12,8 @@ class ContactsUseCase {
   }
 
   async create(data: ContactsCreate): Promise<Contacts> {
-    
-  };
+    return await this.contactsRepository.create(data);
+  }
 }
 
 export { ContactsUseCase };

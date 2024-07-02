@@ -7,7 +7,7 @@ import {
 
 class ContactRepositoryPrisma implements IContactsRepository {
   async create(data: ContactsCreate): Promise<Contacts> {
-  
+    return await db.contacts.create({ data });
   }
 }
 
